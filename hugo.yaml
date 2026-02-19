@@ -2,3 +2,7 @@ baseURL: https://aeliton.com/
 languageCode: en-us
 title: Aeliton Silva
 theme: PaperMod
+
+caches:
+  images:
+    dir: :cacheDir/images
