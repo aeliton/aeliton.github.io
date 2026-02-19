@@ -9,3 +9,10 @@ params:
 caches:
   images:
     dir: :cacheDir/images
+
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
