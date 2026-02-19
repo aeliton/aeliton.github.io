@@ -3,6 +3,9 @@ languageCode: en-us
 title: Aeliton Silva
 theme: PaperMod
 
+params:
+  author: Aeliton Silva
+
 caches:
   images:
     dir: :cacheDir/images
