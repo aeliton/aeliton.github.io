@@ -94,6 +94,11 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+      - name: Install tnftp
+        run: apt install tnftp -qy
+      - name: Upload to aeliton.com
+        run: |
+          tnftp -u "ftp://${{ secrets.DEPLOY_USERNAME }}:${{ secrets.DEPLOY_PASSWORD }}@${{ secrets.DEPLOY_HOST }}/" ./public
   deploy:
     environment:
       name: github-pages
