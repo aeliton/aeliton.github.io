@@ -21,8 +21,9 @@ collecting organs for transplantation. Python, Django, GitHub Actions for CI/CD.
 
 Designed and implemented a conflict-free self replicated database in C++
 [aeliton/cashmere](https://github.com/aeliton/cashmere); Became a sponsored
-Debian maintainer (Rust and Python teams) and made other open source
-contributions to multiple projects.
+[Debian maintainer](https://qa.debian.org/developer.php?login=aeliton%40aeliton.com)
+(Rust and Python teams) and made other open source contributions to multiple
+projects.
 
 #### 2023 -- 2024, Lead Software Engineer, [Foundry Visionmongers](https://foundry.com), UK
 
