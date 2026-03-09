@@ -1,7 +1,7 @@
 # Aeliton Silva
 
 * **Email**: aeliton@aeliton.com
-* **Location**: Fortaleza, Brazil (UTC-3)
+* **Timezone**: UTC-3
 * **Speaks**:
     * Portuguese (native)
     * English (fluent)
