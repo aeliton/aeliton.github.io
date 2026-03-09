@@ -40,7 +40,7 @@ CMake, Qt, and Python.
 Leading the development of a planning-through-diagrams tool for civil
 engineering projects using C++ and Qt.
 
-#### 2017 -- 2017, Lead Software Engineer, [Audo](https://audo.com.br), Brazil %
+#### 2017 -- 2017, Lead Software Engineer, [Audo](https://audo.com.br), Brazil
 
 Developed a web application for imaging medical exams evaluation using
 Elixir, Erlang and Java.
@@ -91,12 +91,13 @@ Contract via [ITIC](https://www.itic.org.br).
 
 * [cashmere](https://github.com/aeliton/cashmere): A conflict-free replicated
   database.
-* [audio-visualizer-python](5):
-    - [Debian package](1) _sponsored_ maintainer;
+* [audio-visualizer-python](https://github.com/djfun/audio-visualizer-python/pull/85):
+    - [Debian package](https://salsa.debian.org/python-team/packages/audio-visualizer-python)
+    1) _sponsored_ maintainer;
     - Re-structure project for distribution in PyPI and Debian.
-* [python-lsp-server](2): Fix unit test.
-* [OpenAssetIO-MediaCreation](3): Fix CMakeLists.txt.
-* [elixir-ecto](4): Bug fix and unit test.
+* [python-lsp-server](https://github.com/python-lsp/python-lsp-server/pull/689): Fix unit test.
+* [OpenAssetIO-MediaCreation](https://github.com/OpenAssetIO/OpenAssetIO-MediaCreation/pull/32): Fix CMakeLists.txt.
+* [elixir-ecto](https://github.com/elixir-ecto/ecto/pull/2204): Bug fix and unit test.
 
 ### Personal & Freelancer Projects
 
@@ -111,9 +112,3 @@ Contract via [ITIC](https://www.itic.org.br).
 * 2005, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
 * 2006, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
 * 2007, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
-
-[1](https://salsa.debian.org/python-team/packages/audio-visualizer-python)
-[2](https://github.com/python-lsp/python-lsp-server/pull/689)
-[3](https://github.com/OpenAssetIO/OpenAssetIO-MediaCreation/pull/32)
-[4](https://github.com/elixir-ecto/ecto/pull/2204)
-[5](https://github.com/djfun/audio-visualizer-python/pull/85)
