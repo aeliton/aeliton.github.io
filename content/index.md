@@ -12,7 +12,7 @@ Experienced Software Engineer passionate about programming and problem solving.
 
 ### Projects
 
-#### Dec-2025 -- Present, Software Engineer at [FUNCAP](funcap), Brazil
+#### Dec-2025 -- Present, Software Engineer at [FUNCAP](https://funcap.com.br), Brazil
 
 Designing and implementing a tool to optimize communication between doctors
 collecting organs for transplantation. Python, Django, GitHub Actions for CI/CD.
@@ -20,8 +20,8 @@ collecting organs for transplantation. Python, Django, GitHub Actions for CI/CD.
 #### Dec 2024 -- Nov 2025 -- Sabbatical Year, Brazil
 
 * Designed and implemented a conflict-free self replicated database in C++
-[aeliton/cashmere](cashmere);
-* Became a sponsored [Debian maintainer](debian-maintainer)
+[aeliton/cashmere](https://github.com/aeliton/cashmere);
+* Became a sponsored [Debian maintainer](https://qa.debian.org/developer.php?login=aeliton%40aeliton.com)
   (Rust and Python teams) and made other open source contributions to multiple
   projects.
 
@@ -111,7 +111,3 @@ Contract via [ITIC](https://www.itic.org.br).
 * 2005, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
 * 2006, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
 * 2007, [ACM ICPC](https://maratona.ime.usp.br), Brazil's Final
-
-[funcap]: https://funcap.com.br
-[cashmere]: https://github.com/aeliton/cashmere
-[debian-maintainer]: https://qa.debian.org/developer.php?login=aeliton%40aeliton.com
