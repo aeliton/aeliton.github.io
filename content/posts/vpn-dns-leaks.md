@@ -4,7 +4,7 @@ draft = false
 title = 'Avoid DNS leaking with Network Manager and Openvpn'
 +++
 
-# What is a DNS leak?
+## What is a DNS leak?
 
 Straight from [Wikipedia](https://en.wikipedia.org/wiki/DNS_leak): _"A DNS leak
 is a security flaw that allows DNS requests to be revealed to internet service
@@ -15,7 +15,7 @@ eavesdroppers, to see what websites a user is visiting."_
 If you have been using a VPN to try to gain some internet privacy, you might be
 interested in reading this further.
 
-# Identifying if you have a DNS leak
+## Identifying if you have a DNS leak
 
 ProtonVPN™ has [an interesting read on the
 subject](https://protonvpn.com/support/dns-leaks-privacy) and recommends to use
@@ -26,13 +26,13 @@ select one of the tests (I used the _Extented Test_), if the result of the test
 shows anything else other than the VPN provided DNS resolver URL, you have a DNS
 leak.
 
-# I had a DNS leak and I didn't know
+## I had a DNS leak and I didn't know
 
-## How do I configure my network interfaces
+### How do I configure my network interfaces
 
 I use `NetworkManager`, via its `nmcli` tool, which is CLI.
 
-## How I used to connect to a VPN provider
+### How I used to connect to a VPN provider
 
 I used to use `openvpn` directly, but in conjunction to `NetworkManager`, we
 will have DNS leaks because in the end, it's the former who decides how to
@@ -67,7 +67,7 @@ I used [DNSleaktest.com](https://www.dnsleaktest.com) and `voilá`, I had a DNS
 leak and could not rest in peace knowing that my ISP provider knows about all
 the debian ISOs I had download until now!
 
-# How to fix it
+## How to fix it
 
 After some reading, I found out about
 [update-systemd-resolved](https://github.com/jonathanio/update-systemd-resolved)
@@ -97,7 +97,7 @@ The next thing that helped was this [StackOverflow answer](https://superuser.com
     nmcli con up <connection name>
     ```
 
-# The last problem
+## The last problem
 
 Awesome, we have a solution. But I refuse to use a single country
 configuration. I want to use all provided configurations.
