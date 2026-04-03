@@ -16,3 +16,7 @@ menu:
       name: Home
       url: /
       weight: 1
+    - identifier: Blog
+      name: Posts
+      url: posts
+      weight: 2
