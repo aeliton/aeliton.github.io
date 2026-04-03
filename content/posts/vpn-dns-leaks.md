@@ -1,6 +1,6 @@
 +++
 date = '2026-04-02'
-draft = true
+draft = false
 title = 'Avoid DNS leaking with Network Manager and Openvpn'
 +++
 
