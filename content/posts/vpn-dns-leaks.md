@@ -1,10 +1,10 @@
 +++
 date = '2026-04-02'
 draft = false
-title = 'Avoid DNS leaking with Network Manager and Openvpn'
+title = 'Avoid DNS leaking with Network Manager and OpenVPN'
 +++
 
-## What is a DNS leak?
+### What is a DNS leak?
 
 Straight from [Wikipedia](https://en.wikipedia.org/wiki/DNS_leak): _"A DNS leak
 is a security flaw that allows DNS requests to be revealed to internet service
@@ -12,37 +12,32 @@ provider (ISP) DNS servers, despite the use of a VPN service to attempt to
 conceal them.[1] The vulnerability allows an ISP, as well as any on-path
 eavesdroppers, to see what websites a user is visiting."_
 
-If you have been using a VPN to try to gain some internet privacy, you might be
-interested in reading this further.
+If you are on Linux, use `NetworkManager` and connects to VPNs using `openvpn`,
+you might be interested in reading this further.
 
-## Identifying if you have a DNS leak
+### Identifying if you have a DNS leak
 
-ProtonVPN™ has [an interesting read on the
-subject](https://protonvpn.com/support/dns-leaks-privacy) and recommends to use
-[DNSleaktest.com](https://www.dnsleaktest.com).
+First, if you don't want your DNS requests to leak, you need to instruct your
+browser to use your DNS from your network. ProtonVPN™ has [an interesting read
+on the subject](https://protonvpn.com/support/dns-leaks-privacy) and recommends
+to use [DNSleaktest.com](https://www.dnsleaktest.com) to test it.
 
-It's all very simple, got to [DNSleaktest.com](https://www.dnsleaktest.com) and
-select one of the tests (I used the _Extented Test_), if the result of the test
-shows anything else other than the VPN provided DNS resolver URL, you have a DNS
-leak.
+It's all very simple:
+1. Make your browser to execute DNS requests from you system;
+1. Connect to your VPN;
+1. Go to [DNSleaktest.com](https://www.dnsleaktest.com);
+1. Select one of the tests (I used the _Extended Test_);
+1. Check the results:
+    - If the result of the test shows your ISP DNS, you have a DNS leak.
 
-## I had a DNS leak and I didn't know
+### I had a DNS leak and I didn't know
 
-### How do I configure my network interfaces
+I used to ~~'hide my browsing traffic from the coffee shop owner'~~ connect to
+my VPN provider using `openvpn` directly like this:
 
-I use `NetworkManager`, via its `nmcli` tool, which is CLI.
-
-### How I used to connect to a VPN provider
-
-I used to use `openvpn` directly, but in conjunction to `NetworkManager`, we
-will have DNS leaks because in the end, it's the former who decides how to
-direct DNS requests.
-
-What I **used** to do with `openvpn` was:
-
-1. Download the openvpn files from my account;
+1. Download the `.ovpn` files from my account;
 2. Save provided username and password on a file (`chmod 600`);
-3. Use the openvpn selecting one of the `udp` ovpn files:
+3. Use the `openvpn` selecting one of the `udp` `.ovpn` files:
     ```sh
     sudo openvpn --config /etc/openvpn/provider_udp/fr.udp.ovpn \
       --auth-user-pass /etc/openvpn/provider_udp/user-pass.txt
@@ -62,22 +57,44 @@ This allows me to simple run:
     sudo openvpn --config /etc/openvpn/provider_udp/fr.udp.ovpn
 ```
 
-So after being connected to the Internet and then connecting to my VPN provider,
-I used [DNSleaktest.com](https://www.dnsleaktest.com) and `voilá`, I had a DNS
-leak and could not rest in peace knowing that my ISP provider knows about all
-the debian ISOs I had download until now!
+At this point, you have a VPN connection, your browsing data is protected, but
+your DNS might leak, providing the attacker a good indication of your
+whereabouts if you have the wrong web page opened.
 
-## How to fix it
+In our case, our 'attacker' will be
+[DNSleaktest.com](https://www.dnsleaktest.com). Their page will use WebRTC [ICE
+candidates](https://bloggeek.me/psa-mdns-and-local-ice-candidates-are-coming/),
+a public [stun
+server](https://webrtc.link/en/articles/stun-turn-servers-webrtc-nat-traversal/)
+and very likely their own Authoritative DNS server. Details can be found (in
+[their minified javascript](https://www.dnsleaktest.com/assets/js/app.js)).
 
-After some reading, I found out about
-[update-systemd-resolved](https://github.com/jonathanio/update-systemd-resolved)
-and decided to install it's Debian package variant:
+The 'attack' goes like this:
+1. The infected page requests in our device a non existing subdomain like
+   `1cb6e9d1-6ec9-43e9-8aa6-8f26a8229c16.test.dnsleaktest.com`.
+2. This host has never existed, so it won't be in our DNS cache.
+3. The request now will leave our device and head to whatever DNS provider is
+   being used, not to be found, it will move on to the root DNS serve -> TLD
+   (Top Level Domain) -> Authoritative DNS server (malicious).
+
+Now the UUID 1cb6e9d1-6ec9-43e9-8aa6-8f26a8229c16 is know by the attacker and
+their DNS server just received an request to resolve it, they now know your DNS
+provider.
+
+### How to fix it
+
+The fix is to make `NetworkManager` aware of the VPN connection so it can
+redirect DNS requests to it now, rather than use the regular system DNS. This
+can be accomplished by
+[update-systemd-resolved](https://github.com/jonathanio/update-systemd-resolved).
+To install its Debian variant you do:
 
 ```sh
 sudo apt install openvpn-systemd-resolved
 ```
 
-The next thing that helped was this [StackOverflow answer](https://superuser.com/a/1847931/196820) which worked. In short you have to:
+But this won't magically resolve your problem. You need to create the VPN
+connection via `NetworkManager`. In short you have to:
 
 1. Import the `.ovpn` configuration to create a `NetworkManager` connection:
     ```sh
@@ -97,7 +114,10 @@ The next thing that helped was this [StackOverflow answer](https://superuser.com
     nmcli con up <connection name>
     ```
 
-## The last problem
+The above steps were extracted from this [StackOverflow
+answer](https://superuser.com/a/1847931/196820).
+
+### The last problem
 
 Awesome, we have a solution. But I refuse to use a single country
 configuration. I want to use all provided configurations.
