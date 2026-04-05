@@ -123,41 +123,14 @@ Awesome, we have a solution. But I refuse to use a single country
 configuration. I want to use all provided configurations.
 
 The automation of the creation and configuration of each country can be done
-with this simple shell script:
+with this [shell
+script](https://raw.githubusercontent.com/aeliton/dotfiles/refs/heads/main/.sh/nm-ovpn-config.sh).
+It defines a function on your shell only if you source it (so that the script
+wont need to be in your PATH).
 
 ```sh
-#!/bin/sh
-
-# The directory of the `.ovpn` files (e.g./etc/openvpn/provider)
-OVPN_DIR=$1
-
-# The full path of your VPN credentials
-CREDENTIALS_PATH=$2
-
-# The username MUST be at the first line of the file.
-vpn_user=$(head -n 1 ${CREDENTIALS_PATH})
-
-# The password MUST be at the last line of the file.
-vpn_pass=$(tail -n 1 ${CREDENTIALS_PATH})
-
-for file in ${OVPN_DIR}/*; do
-  # NetworkManager uses the basefilename minus the extension as connection name.
-  conn_name=$(basename "${file%.*}")
-
-  # Create and configure all connections.
-  nmcli con import type openvpn file $file
-  nmcli con mod ${conn_name} vpn.user-name ${vpn_user}
-  nmcli con mod ${conn_name} +vpn.data "password-flags=0"
-  nmcli con mod ${conn_name} vpn.secrets "password=${vpn_pass}"
-done
-```
-
-You can save this script somewhere and run:
-
-```sh
-sudo sh create-nm-vpn-connections.sh \
-            /etc/openvpn/provider    \
-            /etc/openvpn/provider/user-pass.txt
+source nm-ovpn.sh
+nm-ovpn-config /etc/openvpn/provider
 ```
 
 And check the results with:
