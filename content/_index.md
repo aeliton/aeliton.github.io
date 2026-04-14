@@ -11,8 +11,11 @@
 Experienced Software Engineer passionate about programming and problem solving.
 
 ### Projects
+#### Apr-2026 -- Present, Development Specialist at [Magalu Cloud](https://magalu.cloud/), Brazil
 
-#### Dec-2025 -- Present, Software Engineer at [FUNCAP](http://funcap.ce.gov.br), Brazil
+Building a sovereign cloud.
+
+#### Dec-2025 -- May 2026, Software Engineer at [FUNCAP](http://funcap.ce.gov.br), Brazil
 
 Designing and implementing a tool to optimize communication between doctors
 collecting organs for transplantation. Python, Django, GitHub Actions for CI/CD.
