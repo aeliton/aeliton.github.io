@@ -12,7 +12,7 @@ Experienced Software Engineer passionate about programming and problem solving.
 
 ### Projects
 
-#### Dec-2025 -- Present, Software Engineer at [FUNCAP](https://funcap.ce.gov.br), Brazil
+#### Dec-2025 -- Present, Software Engineer at [FUNCAP](http://funcap.ce.gov.br), Brazil
 
 Designing and implementing a tool to optimize communication between doctors
 collecting organs for transplantation. Python, Django, GitHub Actions for CI/CD.
