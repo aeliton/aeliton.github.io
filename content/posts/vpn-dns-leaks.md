@@ -35,9 +35,9 @@ It's all very simple:
 I used to ~~'hide my browsing traffic from the coffee shop owner'~~ connect to
 my VPN provider using `openvpn` directly like this:
 
-1. Download the `.ovpn` files from my account;
-2. Save provided username and password on a file (`chmod 600`);
-3. Use the `openvpn` selecting one of the `udp` `.ovpn` files:
+1. Download the `.ovpn` files from my VPN provider;
+2. Save username and password on a file (`chmod 600`);
+3. Use the `openvpn` selecting one of the `.ovpn` files:
     ```sh
     sudo openvpn --config /etc/openvpn/provider_udp/fr.udp.ovpn \
       --auth-user-pass /etc/openvpn/provider_udp/user-pass.txt
@@ -61,6 +61,8 @@ At this point, you have a VPN connection, your browsing data is protected, but
 your DNS might leak, providing the attacker a good indication of your
 whereabouts if you have the wrong web page opened.
 
+### Understanding the attack
+
 In our case, our 'attacker' will be
 [DNSleaktest.com](https://www.dnsleaktest.com). Their page will use WebRTC [ICE
 candidates](https://bloggeek.me/psa-mdns-and-local-ice-candidates-are-coming/),
@@ -70,22 +72,20 @@ and very likely their own Authoritative DNS server. Details can be found (in
 [their minified javascript](https://www.dnsleaktest.com/assets/js/app.js)).
 
 The 'attack' goes like this:
-1. The infected page requests in our device a non existing subdomain like
+1. The infected page is opened in our browser;
+1. The page requests a non existing subdomain like
    `1cb6e9d1-6ec9-43e9-8aa6-8f26a8229c16.test.dnsleaktest.com`.
-2. This host has never existed, so it won't be in our DNS cache.
-3. The request now will leave our device and head to whatever DNS provider is
-   being used, not to be found, it will move on to the root DNS serve -> TLD
-   (Top Level Domain) -> Authoritative DNS server (malicious).
-
-Now the UUID 1cb6e9d1-6ec9-43e9-8aa6-8f26a8229c16 is know by the attacker and
-their DNS server just received an request to resolve it, they now know your DNS
-provider.
+1. Such page won't be in our DNS cache, so the request will leave our device
+   and head to whatever DNS provider is being used, to not be found and then
+   will move on to the root DNS serve, then TLD (Top Level Domain) and, finally,
+   Authoritative DNS server, where they can match the requesting DNS to our
+   user.
 
 ### How to fix it
 
 The fix is to make `NetworkManager` aware of the VPN connection so it can
-redirect DNS requests to it now, rather than use the regular system DNS. This
-can be accomplished by
+redirect DNS requests through the VPN tunnel, rather than use the regular system
+DNS. This can be accomplished by
 [update-systemd-resolved](https://github.com/jonathanio/update-systemd-resolved).
 To install its Debian variant you do:
 
@@ -94,7 +94,7 @@ sudo apt install openvpn-systemd-resolved
 ```
 
 But this won't magically resolve your problem. You need to create the VPN
-connection via `NetworkManager`. In short you have to:
+connection via `NetworkManager`:
 
 1. Import the `.ovpn` configuration to create a `NetworkManager` connection:
     ```sh
@@ -114,13 +114,9 @@ connection via `NetworkManager`. In short you have to:
     nmcli con up <connection name>
     ```
 
-The above steps were extracted from this [StackOverflow
-answer](https://superuser.com/a/1847931/196820).
+The above steps were extracted from [here](https://superuser.com/a/1847931/196820).
 
-### The last problem
-
-Awesome, we have a solution. But I refuse to use a single country
-configuration. I want to use all provided configurations.
+### Automating the fix for multiple `.ovpn` files
 
 The automation of the creation and configuration of each country can be done
 with this [shell
