@@ -1,5 +1,6 @@
 +++
 date = '2026-04-16'
+lastmod = '2026-05-03'
 draft = false
 title = 'Private home subnet'
 +++
@@ -63,12 +64,32 @@ iface enp2s0 inet static
 ```
 
 4. Configure the routing:
+
+To allow internet access from our private network we can create some iptables
+rules to configure NAT. This can be achieved by:
 ```sh
 sudo iptables -t nat -A POSTROUTING -o enp1s0 -j MASQUERADE
 sudo iptables -A FORWARD -i enp2s0 -o enp1s0 -j ACCEPT
 sudo iptables -A FORWARD -i enp1s0 -o enp2s0 -m state \
      --state RELATED,ESTABLISHED -j ACCEPT
 ```
+
+In order to reduce attack surface in our private network, we can add some extra
+rules to prevent access to our internal network from the guest network:
+
+```sh
+# Accept connections from our private network
+sudo iptables -I INPUT -s 192.0.2.0/24 -j ACCEPT
+# Accept from loopback interface
+sudo iptables -A INPUT -i lo -j ACCEPT
+# Drop everything else
+sudo iptables -P INPUT DROP
+sudo iptables -P FORWARD DROP
+```
+
+With that, the router will only accept requests starting from our private
+subnet, rejecting everything else, making the host effectively inaccessible by
+an attacker that manages to be on the guest network.
 
 5. Make `iptables` changes persistent:
 ```sh
